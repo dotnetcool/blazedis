@@ -1,0 +1,12 @@
+﻿<MudStack>
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="/fetchdata">New Connection</MudButton>
+
+    <MudNavMenu>
+        <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+        <MudNavGroup Title="Settings" Expanded="true">
+            <MudNavLink Href="/fetchdata" Match="NavLinkMatch.Prefix">fetchdata</MudNavLink>
+            <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix">counter</MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+
+</MudStack>
