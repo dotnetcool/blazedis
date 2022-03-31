@@ -1,4 +1,5 @@
 ﻿using Blazedis.App.Data;
+using Blazedis.App.Services;
 using Microsoft.AspNetCore.Components.WebView.Maui;
 using MudBlazor.Services;
 
@@ -18,7 +19,11 @@ namespace Blazedis.App
                 });
 
             builder.Services.AddBlazorWebView().AddMudServices();
+
             builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddSingleton<EventHub>();
+            builder.Services.AddSingleton<IRedisConfigurationService, RedisConfigurationService>();
+            builder.Services.AddSingleton<IRedisConnectionService, RedisConnectionService>();
 
             return builder.Build();
         }

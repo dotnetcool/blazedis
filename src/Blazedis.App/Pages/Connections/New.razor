@@ -1,0 +1,25 @@
+﻿@page "/connections/new"
+@inherits NewBase
+
+<MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+
+    <MudTextField T="string" @bind-Value="host" Label="Host" Placeholder="127.0.0.1" RequiredError="Host is required!" />
+    <MudTextField T="int?" @bind-Value="port" Label="Port" Placeholder="6379" RequiredError="Port is required!" />
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@Save">Save</MudButton>
+
+@*    @if(currentConnection!=null)
+    {
+
+        @foreach (var item in currentConnection.GetServer(currentConnection.GetEndPoints().First()).Info())
+        {
+            <h1>@item.Key</h1>
+            @foreach (var i in item)
+            {
+                <p>@i.Key - @i.Value</p>
+            }
+        }
+    }*@
+
+</MudForm>
+

@@ -1,12 +1,11 @@
-﻿<MudStack>
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="/fetchdata">New Connection</MudButton>
+﻿@inherits NavMenuBase;
 
-    <MudNavMenu>
-        <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-        <MudNavGroup Title="Settings" Expanded="true">
-            <MudNavLink Href="/fetchdata" Match="NavLinkMatch.Prefix">fetchdata</MudNavLink>
-            <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix">counter</MudNavLink>
-        </MudNavGroup>
-    </MudNavMenu>
+<MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="/connections/new">New Connection</MudButton>
 
-</MudStack>
+<MudNavMenu>
+
+    @foreach (var configuration in Configurations)
+    {
+        <MudNavLink Href="@($"/servers/{configuration.Id}")" Match="NavLinkMatch.All">@configuration.Id </MudNavLink>
+    }
+</MudNavMenu>

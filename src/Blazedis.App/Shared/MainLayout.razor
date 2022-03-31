@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject IRedisConfigurationService redisConfigurationService
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -25,5 +26,10 @@
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await redisConfigurationService.InitAsync();
     }
 }

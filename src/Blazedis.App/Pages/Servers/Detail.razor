@@ -1,0 +1,16 @@
+﻿@page "/servers/{id:guid}"
+@inherits DetailBase
+
+<h3>Detail @Id</h3>
+
+@if(serverInfo != null){
+    foreach (var group in serverInfo)
+    {
+        <h4>@group.Key</h4>
+
+        @foreach(var item in group)
+        {
+            <p>@item.Key - @item.Value</p>
+        }
+    }
+}
