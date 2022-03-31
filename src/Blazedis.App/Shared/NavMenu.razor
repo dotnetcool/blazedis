@@ -4,8 +4,9 @@
 
 <MudNavMenu>
 
-    @foreach (var configuration in Configurations)
+    @foreach (var configuration in configurationItems)
     {
-        <MudNavLink Href="@($"/servers/{configuration.Id}")" Match="NavLinkMatch.All">@configuration.Id </MudNavLink>
+        <MudNavLink Href="@($"/servers/{configuration.Id}")" Match="NavLinkMatch.All">
+        </MudNavLink>
     }
 </MudNavMenu>

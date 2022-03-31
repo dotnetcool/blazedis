@@ -10,71 +10,72 @@ namespace Blazedis.App.Services
 {
     public class RedisConfigurationService : IRedisConfigurationService
     {
-        private const string CONFIG_FILE_NAME = "./blazedis.config.json";
-        private Dictionary<Guid, BlazedisRedisConfiguration> _configurations = null;
-        private readonly EventHub _eventHub;
+        private const string CONFIG_FILE_NAME = "blazedis.config.json";
+        private static BlazedisRedisConfiguration _configurations;
 
-        public RedisConfigurationService(
-            EventHub eventHub)
+        public RedisConfigurationService()
         {
-            _eventHub = eventHub;
-
+            var items = LoadFromFileAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            _configurations = new(items);
         }
 
-        public async Task InitAsync()
+        public List<BlazedisRedisConfigurationItem> GetAll()
         {
-            if (_configurations == null)
-            {
-                _configurations = await LoadFromFileAsync();
-            }
+            return _configurations.Items;
         }
 
-        public List<BlazedisRedisConfiguration> GetAll()
+        public BlazedisRedisConfigurationItem GetById(Guid id)
         {
-            return _configurations.Values.ToList();
+            return _configurations[id];
         }
 
-        public BlazedisRedisConfiguration GetById(Guid id)
+        public BlazedisRedisConfigurationItem Add(BlazedisRedisConfigurationItem configuration)
         {
-            return _configurations.GetValueOrDefault(id);
+            var result = _configurations.Add(configuration);
+
+            RedisConfigurationService.SendChangedMessage();
+            _ = SaveAsFileAsync();
+
+            return result;
         }
 
-
-        public void Add(BlazedisRedisConfiguration configuration)
-        {
-            if (_configurations.TryAdd(configuration.Id, configuration))
-            {
-                SaveAsFileAsync();
-                _eventHub.Publish(EventType.RedisConfigurationChanged);
-            }
-        }
-
-        public void Update(BlazedisRedisConfiguration configuration)
+        public void Update(BlazedisRedisConfigurationItem configuration)
         {
             throw new NotImplementedException();
         }
 
         public void Delete(Guid id)
         {
-            if (_configurations.Remove(id, out _))
+            _configurations.Remove(id);
+            RedisConfigurationService.SendChangedMessage();
+        }
+
+        private static async Task SaveAsFileAsync()
+        {
+            var configFile = Path.Combine(FileSystem.AppDataDirectory, CONFIG_FILE_NAME);
+
+            using var fs = new FileStream(configFile, FileMode.OpenOrCreate);
+            await JsonSerializer.SerializeAsync(fs, _configurations.Items);
+        }
+
+        private static async Task<List<BlazedisRedisConfigurationItem>> LoadFromFileAsync()
+        {
+            var configFile = Path.Combine(FileSystem.AppDataDirectory, CONFIG_FILE_NAME);
+
+            if (File.Exists(configFile))
             {
+                using var fs = new FileStream(configFile, FileMode.Open, FileAccess.Read);
+                var configurations = await JsonSerializer.DeserializeAsync<List<BlazedisRedisConfigurationItem>>(fs);
 
-                _eventHub.Publish(EventType.RedisConfigurationChanged);
+                return configurations;
             }
+
+            return new();
         }
 
-        private async Task SaveAsFileAsync()
+        private static void SendChangedMessage()
         {
-            using var fs = new FileStream(CONFIG_FILE_NAME, FileMode.OpenOrCreate);
-            await JsonSerializer.SerializeAsync(fs, _configurations);
-        }
-
-        private async Task<Dictionary<Guid, BlazedisRedisConfiguration>> LoadFromFileAsync()
-        {
-            var d = Directory.GetCurrentDirectory();
-            using var fs = new FileStream(CONFIG_FILE_NAME, FileMode.OpenOrCreate, FileAccess.Read);
-            return await JsonSerializer.DeserializeAsync<Dictionary<Guid, BlazedisRedisConfiguration>>(fs);
-
+            MessagingCenter.Send(_configurations, EventType.RedisConfigurationChanged);
         }
     }
 }

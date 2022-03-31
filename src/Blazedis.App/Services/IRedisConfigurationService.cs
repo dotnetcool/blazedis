@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blazedis.App.Services
+﻿namespace Blazedis.App.Services
 {
     public interface IRedisConfigurationService
     {
-        Task InitAsync();
+        List<BlazedisRedisConfigurationItem> GetAll();
 
-        List<BlazedisRedisConfiguration> GetAll();
+        BlazedisRedisConfigurationItem GetById(Guid id);
 
-        BlazedisRedisConfiguration GetById(Guid id);
+        BlazedisRedisConfigurationItem Add(BlazedisRedisConfigurationItem configuration);
 
-        void Add(BlazedisRedisConfiguration configuration);
-
-        void Update(BlazedisRedisConfiguration configuration);
+        void Update(BlazedisRedisConfigurationItem configuration);
 
         void Delete(Guid id);
     }

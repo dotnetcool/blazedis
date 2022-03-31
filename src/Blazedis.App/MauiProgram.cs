@@ -21,7 +21,6 @@ namespace Blazedis.App
             builder.Services.AddBlazorWebView().AddMudServices();
 
             builder.Services.AddSingleton<WeatherForecastService>();
-            builder.Services.AddSingleton<EventHub>();
             builder.Services.AddSingleton<IRedisConfigurationService, RedisConfigurationService>();
             builder.Services.AddSingleton<IRedisConnectionService, RedisConnectionService>();
 

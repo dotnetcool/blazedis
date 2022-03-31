@@ -27,9 +27,4 @@
     {
         _drawerOpen = !_drawerOpen;
     }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await redisConfigurationService.InitAsync();
-    }
 }

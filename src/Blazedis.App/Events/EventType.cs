@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Blazedis.App.Events
 {
-    public enum EventType
+    public static class EventType
     {
-        RedisConfigurationChanged = 0
+        public const string RedisConfigurationChanged = nameof(RedisConfigurationChanged);
     }
 }

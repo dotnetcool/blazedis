@@ -25,7 +25,7 @@ namespace Blazedis.App.Pages.Connections
             host ??= "127.0.0.1";
             port ??= 6379;
 
-            RedisConfigurationService.Add(new BlazedisRedisConfiguration
+            RedisConfigurationService.Add(new BlazedisRedisConfigurationItem
             {
                 Id = Guid.NewGuid(),
                 Options = new ConfigurationOptions

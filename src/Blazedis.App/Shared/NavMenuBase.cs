@@ -9,19 +9,23 @@ namespace Blazedis.App.Shared
 {
     public class NavMenuBase : ComponentBase
     {
-        protected List<BlazedisRedisConfiguration> configurations;
-
-        [Inject]
-        protected EventHub EventHub { get; set; }
+        protected List<BlazedisRedisConfigurationItem> configurationItems;
 
         [Inject]
         protected IRedisConfigurationService RedisConfigurationService { get; set; }
 
-        protected List<BlazedisRedisConfiguration> Configurations => RedisConfigurationService.GetAll();
-
         protected override void OnInitialized()
         {
-            EventHub.OnRedisConfigurationChange += StateHasChanged;
+            configurationItems = RedisConfigurationService.GetAll();
+
+            MessagingCenter.Subscribe(
+                this,
+                EventType.RedisConfigurationChanged,
+                (BlazedisRedisConfiguration configuration) =>
+                {
+                    configurationItems = configuration.Items;
+                    StateHasChanged();
+                });
         }
 
         protected override void OnParametersSet()
