@@ -1,25 +1,35 @@
 ﻿@page "/connections/new"
 @inherits NewBase
 
-<MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+<MudContainer Class="my-8 px-8" MaxWidth="MaxWidth.False">
+    <MudText Typo="Typo.h5">New Connection</MudText>
 
-    <MudTextField T="string" @bind-Value="host" Label="Host" Placeholder="127.0.0.1" RequiredError="Host is required!" />
-    <MudTextField T="int?" @bind-Value="port" Label="Port" Placeholder="6379" RequiredError="Port is required!" />
+    <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
 
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@Save">Save</MudButton>
+        <MudGrid>
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" @bind-Value="formHost" Label="Host" Placeholder="127.0.0.1" />
+            </MudItem>
 
-@*    @if(currentConnection!=null)
-    {
+            <MudItem xs="12" sm="6">
+                <MudTextField T="int?" @bind-Value="formPort" Label="Port" Placeholder="6379" />
+            </MudItem>
 
-        @foreach (var item in currentConnection.GetServer(currentConnection.GetEndPoints().First()).Info())
-        {
-            <h1>@item.Key</h1>
-            @foreach (var i in item)
-            {
-                <p>@i.Key - @i.Value</p>
-            }
-        }
-    }*@
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" @bind-Value="formName" Label="Name" Placeholder="@Name" />
+            </MudItem>
 
-</MudForm>
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@Save" Disabled="isOnSaving">
+                    @if (isOnSaving)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    }
 
+                    <MudText>Save</MudText>
+                </MudButton>
+            </MudItem>
+
+        </MudGrid>
+    </MudForm>
+</MudContainer>

@@ -6,6 +6,8 @@ namespace Blazedis.App.Core
     {
         public Guid Id { get; set; }
 
+        public string Name { get; set; }
+
         [JsonIgnore]
         public ConfigurationOptions Options { get; set; }
 

@@ -2,11 +2,20 @@
 {
     public class BlazedisRedisConfiguration
     {
-        private Dictionary<Guid, BlazedisRedisConfigurationItem> _dics;
+        private readonly Dictionary<Guid, BlazedisRedisConfigurationItem> _dics;
 
-        public BlazedisRedisConfiguration(IEnumerable<BlazedisRedisConfigurationItem> items)
+        public BlazedisRedisConfiguration() : this(new List<BlazedisRedisConfigurationItem>())
+        {
+        }
+
+        private BlazedisRedisConfiguration(IEnumerable<BlazedisRedisConfigurationItem> items)
         {
             _dics = items.ToDictionary(i => i.Id, i => i);
+        }
+
+        public static BlazedisRedisConfiguration Init(IEnumerable<BlazedisRedisConfigurationItem> items)
+        {
+            return new BlazedisRedisConfiguration(items);
         }
 
         public BlazedisRedisConfigurationItem this[Guid id]

@@ -11,12 +11,10 @@ namespace Blazedis.App.Services
     public class RedisConfigurationService : IRedisConfigurationService
     {
         private const string CONFIG_FILE_NAME = "blazedis.config.json";
-        private static BlazedisRedisConfiguration _configurations;
+        private static BlazedisRedisConfiguration _configurations = new();
 
         public RedisConfigurationService()
         {
-            var items = LoadFromFileAsync().ConfigureAwait(false).GetAwaiter().GetResult();
-            _configurations = new(items);
         }
 
         public List<BlazedisRedisConfigurationItem> GetAll()
@@ -33,7 +31,7 @@ namespace Blazedis.App.Services
         {
             var result = _configurations.Add(configuration);
 
-            RedisConfigurationService.SendChangedMessage();
+            SendChangedMessage();
             _ = SaveAsFileAsync();
 
             return result;
@@ -47,7 +45,15 @@ namespace Blazedis.App.Services
         public void Delete(Guid id)
         {
             _configurations.Remove(id);
-            RedisConfigurationService.SendChangedMessage();
+            SendChangedMessage();
+        }
+
+        public async Task InitConfigurationAsync()
+        {
+            var items = await LoadFromFileAsync();
+            _configurations = BlazedisRedisConfiguration.Init(items);
+
+            SendChangedMessage();
         }
 
         private static async Task SaveAsFileAsync()

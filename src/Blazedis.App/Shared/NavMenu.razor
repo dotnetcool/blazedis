@@ -3,10 +3,10 @@
 <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="/connections/new">New Connection</MudButton>
 
 <MudNavMenu>
-
-    @foreach (var configuration in configurationItems)
+    @foreach (var item in configurationItems)
     {
-        <MudNavLink Href="@($"/servers/{configuration.Id}")" Match="NavLinkMatch.All">
+        <MudNavLink Href="@($"/servers/{item.Id}")" Match="NavLinkMatch.All">
+            @item.Name
         </MudNavLink>
     }
 </MudNavMenu>

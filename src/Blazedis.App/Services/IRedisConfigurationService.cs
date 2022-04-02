@@ -11,5 +11,7 @@
         void Update(BlazedisRedisConfigurationItem configuration);
 
         void Delete(Guid id);
+
+        Task InitConfigurationAsync();
     }
 }

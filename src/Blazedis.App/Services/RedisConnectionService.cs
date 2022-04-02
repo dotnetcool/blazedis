@@ -45,5 +45,19 @@ namespace Blazedis.App.Services
 
             return null;
         }
+
+        public bool TestConnection(ConfigurationOptions configurationOptions)
+        {
+            try
+            {
+                ConnectionMultiplexer.Connect(configurationOptions);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
     }
 }

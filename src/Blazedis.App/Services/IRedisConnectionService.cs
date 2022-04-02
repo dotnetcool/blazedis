@@ -10,5 +10,6 @@ namespace Blazedis.App.Services
     {
         ConnectionMultiplexer GetById(Guid id);
         IServer GetServerById(Guid id);
+        bool TestConnection(ConfigurationOptions configurationOptions);
     }
 }
