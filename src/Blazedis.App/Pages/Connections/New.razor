@@ -20,7 +20,7 @@
             </MudItem>
 
             <MudItem xs="12">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@Save" Disabled="isOnSaving">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Save" Disabled="isOnSaving">
                     @if (isOnSaving)
                     {
                         <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />

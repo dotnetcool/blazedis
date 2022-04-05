@@ -10,7 +10,7 @@ namespace Blazedis.App.Pages.Servers
     public class DetailBase : ComponentBase
     {
         protected IGrouping<string, KeyValuePair<string, string>>[] serverInfo;
-        
+
         [Parameter]
         public Guid Id { get; set; }
 
@@ -21,6 +21,18 @@ namespace Blazedis.App.Pages.Servers
 
         protected override async Task OnInitializedAsync()
         {
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            MessagingCenter.Send(new UriChangedMessage
+            {
+                Data = new ServersDetailUriChangedMessageData
+                {
+                    Id = Id
+                }
+            }, EventType.UriChanged);
+
             serverInfo = await RedisConnectionService.GetServerById(Id)?.InfoAsync();
         }
     }

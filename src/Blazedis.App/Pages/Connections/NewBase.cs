@@ -32,7 +32,6 @@ namespace Blazedis.App.Pages.Connections
         [Inject]
         public ISnackbar Snackbar { get; set; }
 
-
         protected void Save()
         {
             isOnSaving = true;
@@ -66,6 +65,11 @@ namespace Blazedis.App.Pages.Connections
             });
 
             isOnSaving = false;
+        }
+
+        protected override void OnParametersSet()
+        {
+            MessagingCenter.Send(new UriChangedMessage(), EventType.UriChanged);
         }
     }
 }

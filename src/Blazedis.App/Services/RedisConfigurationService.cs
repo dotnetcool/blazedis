@@ -46,6 +46,8 @@ namespace Blazedis.App.Services
         {
             _configurations.Remove(id);
             SendChangedMessage();
+
+            _ = SaveAsFileAsync();
         }
 
         public async Task InitConfigurationAsync()
@@ -59,9 +61,9 @@ namespace Blazedis.App.Services
         private static async Task SaveAsFileAsync()
         {
             var configFile = Path.Combine(FileSystem.AppDataDirectory, CONFIG_FILE_NAME);
+            var json = JsonSerializer.Serialize(_configurations.Items);
 
-            using var fs = new FileStream(configFile, FileMode.OpenOrCreate);
-            await JsonSerializer.SerializeAsync(fs, _configurations.Items);
+            await File.WriteAllTextAsync(configFile, json);
         }
 
         private static async Task<List<BlazedisRedisConfigurationItem>> LoadFromFileAsync()

@@ -1,0 +1,12 @@
+﻿@inherits ServerContentBase
+
+<MudText Typo="Typo.h5" Class="ml-3">@serverName</MudText>
+<MudSpacer />
+
+<MudMenu Icon="@Icons.Material.Filled.MoreVert"
+         Color="Color.Inherit"
+         AnchorOrigin="Origin.BottomRight"
+         TransformOrigin="Origin.TopRight">
+    <MudMenuItem OnClick="DeleteConfiguration">Delete</MudMenuItem>
+</MudMenu>
+

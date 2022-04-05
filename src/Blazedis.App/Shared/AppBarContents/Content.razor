@@ -1,0 +1,24 @@
+﻿@inject NavigationManager NavigationManager
+
+@if (dataObject is ServersDetailUriChangedMessageData data)
+{
+    <ServerContent Data="data" />
+}
+else
+{
+    <DefaultContent />
+}
+
+@code {
+    protected object dataObject = null;
+
+    protected override void OnInitialized()
+    {
+        MessagingCenter.Subscribe<UriChangedMessage>(this, EventType.UriChanged, uriChangedMessage =>
+        {
+            dataObject = uriChangedMessage.Data;
+
+            StateHasChanged();
+        });
+    }
+}

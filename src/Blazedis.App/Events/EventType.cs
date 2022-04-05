@@ -9,5 +9,6 @@ namespace Blazedis.App.Events
     public static class EventType
     {
         public const string RedisConfigurationChanged = nameof(RedisConfigurationChanged);
+        public const string UriChanged = nameof(UriChanged);
     }
 }

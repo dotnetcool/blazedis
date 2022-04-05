@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +29,5 @@ namespace Blazedis.App.Shared
                 });
         }
 
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-        }
-
-        protected override void OnAfterRender(bool firstRender)
-        {
-            base.OnAfterRender(firstRender);
-        }
     }
 }
