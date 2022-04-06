@@ -141,4 +141,4 @@ jobs:
         uses: actions/upload-artifact@v2.3.1
         with:
           name: macos-ci-build
-          path: src/MauiBeach/bin/Release/net6.0-maccatalyst/**/*.app/
+          path: src/Blazedis.App/bin/Release/net6.0-maccatalyst/**/*.app/
