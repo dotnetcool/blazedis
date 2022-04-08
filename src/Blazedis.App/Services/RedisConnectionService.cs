@@ -46,11 +46,11 @@ namespace Blazedis.App.Services
             return null;
         }
 
-        public bool TestConnection(ConfigurationOptions configurationOptions)
+        public async Task<bool> TestConnectionAsync(ConfigurationOptions configurationOptions)
         {
             try
             {
-                ConnectionMultiplexer.Connect(configurationOptions);
+                await ConnectionMultiplexer.ConnectAsync(configurationOptions);
                 return true;
             }
             catch (Exception ex)

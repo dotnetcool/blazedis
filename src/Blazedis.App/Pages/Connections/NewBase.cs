@@ -32,7 +32,7 @@ namespace Blazedis.App.Pages.Connections
         [Inject]
         public ISnackbar Snackbar { get; set; }
 
-        protected void Save()
+        protected async Task SaveAsync()
         {
             isOnSaving = true;
 
@@ -47,11 +47,20 @@ namespace Blazedis.App.Pages.Connections
 
             try
             {
-                RedisConnectionService.TestConnection(configurationOption);
+                await RedisConnectionService.TestConnectionAsync(configurationOption);
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Something wrong when connected to the host: {ex}", Severity.Error);
+                Snackbar.Add(
+                    $"Something wrong when connected to the host: {ex}", 
+                    Severity.Error,
+                    config =>
+                    {
+                        config.CloseAfterNavigation = true;
+                        config.ShowCloseIcon= true;
+                        config.RequireInteraction = true;
+                        config.HideTransitionDuration = 300;
+                    });
                 isOnSaving = false;
 
                 return;
