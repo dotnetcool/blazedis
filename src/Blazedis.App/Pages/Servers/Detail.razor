@@ -3,14 +3,71 @@
 
 <h3>Detail @Id</h3>
 
-@if(serverInfo != null){
-    foreach (var group in serverInfo)
+@if (isLoading)
+{
+    <MudSimpleTable>
+        <tbody>
+            @for (var i = 0; i < 10; i++)
+            {
+                <tr>
+                    <td>
+                        <MudSkeleton Width="64px" Height="40px" Class="ml-2" />
+                    </td>
+                    <td>
+                        <MudSkeleton Width="256px" Height="40px" Class="ml-2" />
+                    </td>
+                    <td>
+                        <MudSkeleton Width="64px" Height="40px" Class="ml-2" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+}
+else
+{
+    @if (HasError)
     {
-        <h4>@group.Key</h4>
-
-        @foreach(var item in group)
-        {
-            <p>@item.Key - @item.Value</p>
-        }
+        <h3>@exception.Message</h3>
+        <p>@exception.InnerException</p>
+    }
+    else
+    {
+        <MudSimpleTable>
+            <thead>
+                <tr>
+                    <th>type</th>
+                    <th>key</th>
+                    <th>ttl</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in keyList)
+                {
+                    <tr @onclick="_ => OnRowClicked()">
+                        <td>
+                            <MudChip Label="true">@item.Type</MudChip>
+                        </td>
+                        <td>@item.Key</td>
+                        <td>@item.Ttl</td>
+                    </tr>
+                }
+            </tbody>
+        </MudSimpleTable>
     }
 }
+
+@*<div>
+    @if (serverInfo != null)
+    {
+        foreach (var group in serverInfo)
+        {
+            <h4>@group.Key</h4>
+
+            @foreach (var item in group)
+            {
+                <p>@item.Key - @item.Value</p>
+            }
+        }
+    }
+</div>*@

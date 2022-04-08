@@ -16,7 +16,7 @@ else
     {
         MessagingCenter.Subscribe<UriChangedMessage>(this, EventType.UriChanged, uriChangedMessage =>
         {
-            dataObject = uriChangedMessage.Data;
+            this.dataObject = uriChangedMessage.Data;
 
             StateHasChanged();
         });

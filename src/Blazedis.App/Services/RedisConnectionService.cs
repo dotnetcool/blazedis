@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Blazedis.App.Services
             _redisConfigurationService = redisConfigurationService;
         }
 
-        public ConnectionMultiplexer GetById(Guid id)
+        public async Task<ConnectionMultiplexer> GetByIdAsync(Guid id)
         {
             if (!_connections.TryGetValue(id, out var connection) || connection == null)
             {
@@ -25,7 +26,7 @@ namespace Blazedis.App.Services
 
                 if (configuration != null)
                 {
-                    connection = ConnectionMultiplexer.Connect(configuration.Options);
+                    connection = await ConnectionMultiplexer.ConnectAsync(configuration.Options);
                     _connections[id] = connection;
                 }
 
@@ -34,13 +35,11 @@ namespace Blazedis.App.Services
             return connection;
         }
 
-        public IServer GetServerById(Guid id)
+        public IServer GetServer(ConnectionMultiplexer connection, EndPoint endPoint)
         {
-            var connection = GetById(id);
             if (connection != null)
             {
-                var configuration = _redisConfigurationService.GetById(id);
-                return connection.GetServer(configuration.Options.EndPoints.First());
+                return connection.GetServer(endPoint);
             }
 
             return null;
